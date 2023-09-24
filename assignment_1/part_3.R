@@ -1,4 +1,4 @@
-pollutantmean <- function(directory = "specdata", pollutant, id = 1:322) {
+pollutantmean <- function(directory = "specdata", pollutant, id = 1:332) {
   ## 'directory' is a character vector of length 1 indicating the location for the CSV files
   ## 'pollutant' is a character vector of length 1 indicating the name of the pollutant for which we will calculate the mean; either "sulfate" or "nitrate".
   ## 'id' is an integer vector indicating the monitor ID numbers to be used
@@ -12,7 +12,7 @@ pollutantmean <- function(directory = "specdata", pollutant, id = 1:322) {
 
 }
 
-complete <- function(directory = "specdata", id = 1:322) {
+complete <- function(directory = "specdata", id = 1:332) {
   files <- list.files(paste("~/Documents/Coursera_Data_Science/datasciencecoursera/assignment_1/",directory, sep=""))[id]
   counter <- 1
   output <- c()
