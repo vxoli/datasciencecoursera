@@ -1,4 +1,4 @@
-best <- function(state, outcome, data="outcome-of-care-measures.csv") {
+best <- function(state, outcome, data="data/outcome-of-care-measures.csv") {
   ## read data from data file
   dataset <- read.csv(data)
   ## check state and outcome entry valid before proceeding. If not exit with error message and return NA.
