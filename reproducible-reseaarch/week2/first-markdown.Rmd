@@ -15,16 +15,28 @@ This is an R Markdown document. Markdown is a simple formatting syntax for autho
 
 When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
 
-```{r activitydata}
+```{r read_activity_data, echo=TRUE}
 data <- read.csv(("/home/christopher/Documents/Coursera_Data_Science/datasciencecoursera/reproducible-reseaarch/week2/activity.csv"))
+# process data
+data$steps <- as.numeric((data$steps))
+data$date <- as.Date(data$date)
+data$interval <- as.numeric((data$interval))
 ```
 
-## Including Plots
+## Histogram of steps per day
 
-Histogram of steps per day
+This is the histogram of steps per day.
 
-```{r pressure, echo=FALSE}
-hist(data$steps)
+```{r histogram, echo=TRUE}
+hist(tapply(data$steps, data$date, sum), xlab = deparse1(substitute(data$date)))
 ```
 
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+## Mean and median number of steps per day
+
+```{r mean-and-median-steps-per-day, echp=TRUE}
+meanSteps <- aggregate(data$steps, list(data$date), mean)
+medianSteps <- aggregate(data$steps, list(data$date), median)
+mean_med <- as.data.frame(append(meanSteps, medianSteps[2]))
+names(mean_med) <- c("Date","Mean","Median")
+
+```
