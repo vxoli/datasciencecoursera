@@ -8,13 +8,8 @@ output: html_document
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
-
-## R Markdown
-
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
-
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
-
+# Assignment Project 1  
+## Loading and preprocessing the data  
 ```{r read_activity_data, echo=TRUE}
 data <- read.csv(("/home/christopher/Documents/Coursera_Data_Science/datasciencecoursera/reproducible-reseaarch/week2/activity.csv"))
 # process data
@@ -23,29 +18,41 @@ data$date <- as.Date(data$date)
 data$interval <- as.numeric((data$interval))
 ```
 
-## Histogram of steps per day
-
-This is the histogram of steps per day.
+## What is mean total number of steps taken per day?
+This is the histogram of total steps per day.  
 
 ```{r histogram, echo=TRUE}
 hist(tapply(data$steps, data$date, sum), main="Histogram of total steps/day", xlab = deparse1(substitute(data$date)))
 ```
 
+``` {r compute_setps_intervals, echo=TRUE}
+## compute interval with max average number of steps
+intervalSteps <- aggregate(data$steps, list(data$interval), mean)
+maxIntervalSteps <- intervalSteps[intervalSteps['x'] == max(intervalSteps['x']),][1]
+maxIntervalSteps
+## need to include to text print the variable below.
+## this calculation works in console but returns error in markdown - WHY?
+```
+
+
 ## Mean and median number of steps per day
 
 ```{r mean-and-median-steps-per-day, echp=TRUE}
-meanSteps <- aggregate(data$steps, list(data$date), mean)
-medianSteps <- aggregate(data$steps, list(data$date), median)
-mean_med <- as.data.frame(append(meanSteps, medianSteps[2]))
-names(mean_med) <- c("Date","Mean","Median")
-mean_med
+# remove na and 0 days
+meanSteps <- mean(subset(data$steps, !(data$steps == 0), data$steps, na.rm = TRUE))
+medianSteps <- median(subset(data$steps, !(data$steps == 0), data$steps, na.rm = TRUE))
 ```
+
+The mean number of steps per day is: `r meanSteps` steps.  
+The median number of steps per day is: `r medianSteps` steps.  
 
 ## Average Daily Activity Pattern
 
 ```{r daily-acticity-time-series-plot, echo=TRUE}
 library(ggplot2)
-ggplot(subset(data, !((is.na(data$steps)) | data$steps == 0)), aes(x = date, y= steps)) + geom_line() + geom_line(data = mean_med, aes(x = Date, y= Mean), color = "red")
+plotData <- aggregate(data$steps, list(data$interval), mean)
+p <- ggplot(plotData, aes(x=`Group.1`, y=`x`)) + geom_line() + xlab("Interval") + ylab("Steps")
+p
 ```
 
 ```{r count-NAs, echo=TRUE}
