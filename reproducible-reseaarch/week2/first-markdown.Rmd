@@ -38,5 +38,19 @@ meanSteps <- aggregate(data$steps, list(data$date), mean)
 medianSteps <- aggregate(data$steps, list(data$date), median)
 mean_med <- as.data.frame(append(meanSteps, medianSteps[2]))
 names(mean_med) <- c("Date","Mean","Median")
+mean_med
+```
+
+## Average Daily Activity Pattern
+
+```{r daily-acticity-time-series-plot, echo=TRUE}
+library(ggplot2)
+ggplot(subset(data, !((is.na(data$steps)) | data$steps == 0)), aes(x = date, y= steps)) + geom_line() + geom_line(data = mean_med, aes(x = Date, y= Mean), color = "red")
+```
+
+```{r count-NAs, echo=TRUE}
+count_NAs <- sum(is.na(data))
 
 ```
+
+The total number of NA's in the dataset is: `r count_NAs`
