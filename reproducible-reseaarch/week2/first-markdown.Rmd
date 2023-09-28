@@ -28,7 +28,7 @@ data$interval <- as.numeric((data$interval))
 This is the histogram of steps per day.
 
 ```{r histogram, echo=TRUE}
-hist(tapply(data$steps, data$date, sum), xlab = deparse1(substitute(data$date)))
+hist(tapply(data$steps, data$date, sum), main="Histogram of total steps/day", xlab = deparse1(substitute(data$date)))
 ```
 
 ## Mean and median number of steps per day
@@ -53,4 +53,18 @@ count_NAs <- sum(is.na(data))
 
 ```
 
-The total number of NA's in the dataset is: `r count_NAs`
+The total number of NA's in the dataset is: `r count_NAs`  
+  
+## Impute missing values
+For steps and interval
+```{r impute, echo=TRUE}
+## replace NA in steps with mean of steps for whole sample and put into new dataset
+dataWithRelacement <- data
+dataWithRelacement$steps[is.na(data$steps)] <- mean(data$steps, na.rm=TRUE)
+```
+
+## Histograms with imputed values
+
+```{r more_histograms, echo=TRUE}
+hist(tapply(dataWithRelacement$steps, dataWithRelacement$date, sum), main="Histogram of total steps/day (NA replaced by mean)", xlab = deparse1(substitute(dataWithRelacement$date)))
+```
