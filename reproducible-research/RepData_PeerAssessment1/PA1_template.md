@@ -99,9 +99,9 @@ hist(tapply(dataWithRelacement$steps, dataWithRelacement$date, sum), main="Histo
 weekData <- subset(data, data$weekday == TRUE)
 weekendData <- subset(data, data$weekday == FALSE)
 plotWeek <- aggregate(weekData$steps, list(weekData$interval), mean, na.rm=TRUE)
-p1 <- ggplot(plotWeek, aes(x=`Group.1`, y=`x`)) + geom_line() + xlab("Interval") + ylab("Average Steps") + ggtitle("Weekday activity (mean steps by interval)")
+p1 <- ggplot(plotWeek, aes(x=`Group.1`, y=`x`)) + geom_line() + xlab("Interval") + ylab("Average Steps") + ggtitle("Weekday activity (mean steps by interval)") + xlim(0, max(data$interval))
 plotWeekend <- aggregate(weekendData$steps, list(weekendData$interval), mean, na.rm=TRUE)
-p2 <- ggplot(plotWeekend, aes(x=`Group.1`, y=`x`)) + geom_line() + xlab("Interval") + ylab("Average Steps") + ggtitle("Weekend activity (mean steps by interval)")
+p2 <- ggplot(plotWeekend, aes(x=`Group.1`, y=`x`)) + geom_line() + xlab("Interval") + ylab("Average Steps") + ggtitle("Weekend activity (mean steps by interval)") + xlim(0, max(data$interval))
 par(mfrow = c(2,1))
 plot(p1)
 ```
