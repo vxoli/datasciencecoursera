@@ -362,11 +362,9 @@ display: none;
 <h1>Assignment Project 1</h1>
 <div id="loading-and-preprocessing-the-data" class="section level2">
 <h2>Loading and preprocessing the data</h2>
-<pre class="r"><code>data &lt;- read.csv((&quot;/home/christopher/Documents/Coursera_Data_Science/datasciencecoursera/RepData_PeerAssessment1/activity.csv&quot;))
+<pre class="r"><code>data &lt;- read.csv(&quot;/home/christopher/Documents/Coursera_Data_Science/datasciencecoursera/reproducible-research/RepData_PeerAssessment1/activity.csv&quot;, colClasses=c(&quot;numeric&quot;, &quot;Date&quot;, &quot;numeric&quot;))
 # process data
-data$steps &lt;- as.numeric((data$steps))
-data$date &lt;- as.Date(data$date)
-data$interval &lt;- as.numeric((data$interval))
+
 ## add columns to index whether weekday or weekend - this is fot analyses at end project.
 data$day &lt;- weekdays(data$date)
 data$weekday &lt;- (data$day %in% c(&#39;Monday&#39;, &#39;Tuesday&#39;, &#39;Wednesday&#39;, &#39;Thursday&#39;, &#39;Friday&#39;))</code></pre>

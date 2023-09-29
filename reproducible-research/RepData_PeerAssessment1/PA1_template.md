@@ -15,11 +15,9 @@ output:
 
 
 ```r
-data <- read.csv(("/home/christopher/Documents/Coursera_Data_Science/datasciencecoursera/RepData_PeerAssessment1/activity.csv"))
+data <- read.csv("/home/christopher/Documents/Coursera_Data_Science/datasciencecoursera/reproducible-research/RepData_PeerAssessment1/activity.csv", colClasses=c("numeric", "Date", "numeric"))
 # process data
-data$steps <- as.numeric((data$steps))
-data$date <- as.Date(data$date)
-data$interval <- as.numeric((data$interval))
+
 ## add columns to index whether weekday or weekend - this is fot analyses at end project.
 data$day <- weekdays(data$date)
 data$weekday <- (data$day %in% c('Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'))
