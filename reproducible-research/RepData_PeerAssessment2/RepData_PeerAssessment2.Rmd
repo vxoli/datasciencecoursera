@@ -1,8 +1,11 @@
 ---
-title: "RepReschProject2 using the NOAA Storm Database to answer some questions about severe weather events"
+title: RepReschProject2 using the NOAA Storm Database to answer some questions about
+  severe weather events
 author: "Christopher Stonell"
 date: "`r Sys.Date()`"
-output: html_document
+output:
+  pdf_document: default
+  html_document: default
 ---
 
 ```{r setup, include=FALSE}
@@ -65,4 +68,8 @@ The economic consequences are captured as dollar amounts in variables PROPDMG fo
 The events with the top 10 greatest economic impacts were:
 `r knitr::kable(d_econ, col.names=c("$",""), caption = "Table of economic cost of Severe Weather Events by Types.")`
 
-
+### Bar Graph of economic impact by year
+```{r barplot, echo=TRUE}
+## use tapply again to generate the data for barplot by state
+barplot(tapply((data$PROPDMG+data$CROPDMG), list(data$STATE), FUN=sum), xlab="State", ylab = "Total $ economic damage", main="Barplot of Total economic impact of severe weather events by State")
+```
