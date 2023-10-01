@@ -37,8 +37,9 @@ data$INJURIES <- as.numeric(data$INJURIES)
 
 
 ## Data Processing
-```{r}
+```{r computations for results sections}
 # do computations for results in this block
+
 # measures of harm to health are columns FATALITIES & INJUTRIES.
 topFatalities <- as.data.frame(sort(tapply(data$FATALITIES, data$EVTYPE, FUN=sum), decreasing = TRUE))
 topInjuries <- as.data.frame(sort(tapply(data$INJURIES, data$EVTYPE, FUN=sum), decreasing = TRUE))
@@ -46,6 +47,9 @@ topCombined <- as.data.frame(sort(tapply((data$FATALITIES+data$INJURIES), data$E
 d_fatal <- data.frame(x = topFatalities, group=names(topFatalities))
 d_inj <- data.frame(x = topInjuries, group=names(topInjuries))
 d_comb <- data.frame(x = topCombined, group=names(topCombined))
+
+# measures of economic impact
+
 ```
 
 ## results
