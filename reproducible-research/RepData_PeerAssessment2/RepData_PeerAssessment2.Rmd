@@ -1,0 +1,57 @@
+---
+title: "RepReschProject2 using the NOAA Storm Database to answer some questions about severe weather events"
+author: "Christopher Stonell"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Read data from .bz2 file
+Data read from the provided .bz2 file. read.csv supports directly reading from compressed .bz2 files.  
+data is read into the variable "data".  
+```{r read the data, echo = TRUE, cache = TRUE}
+# read.csv allows for reading directly from compressed .bz2
+data <- as.data.frame(read.csv("/home/christopher/Documents/Coursera_Data_Science/datasciencecoursera/reproducible-research/RepData_PeerAssessment2/repdata_data_StormData.csv.bz2"))
+
+```
+The dataset consists of `r nrow(data)` rows and `r ncol(data)` variables.
+
+## Pre-processing & data transformations
+```{r}
+# set colClasses for the columns of interest
+data$EVTYPE <- as.character(data$EVTYPE)
+data$FATALITIES <- as.numeric(data$FATALITIES)
+data$INJURIES <- as.numeric(data$INJURIES)
+
+```
+
+
+## Data Processing
+```{r}
+# do computations for results in this block
+# measures of harm to health are columns FATALITIES & INJUTRIES.
+topFatalities <- as.data.frame(sort(tapply(data$FATALITIES, data$EVTYPE, FUN=sum), decreasing = TRUE))
+topInjuries <- as.data.frame(sort(tapply(data$INJURIES, data$EVTYPE, FUN=sum), decreasing = TRUE))
+topCombined <- as.data.frame(sort(tapply((data$FATALITIES+data$INJURIES), data$EVTYPE, FUN=sum), decreasing = TRUE))
+d_fatal <- data.frame(x = topFatalities, group=names(topFatalities))
+d_inj <- data.frame(x = topInjuries, group=names(topInjuries))
+d_comb <- data.frame(x = topCombined, group=names(topCombined))
+```
+
+## results
+### Questions 1. Across the United States, which types of events (as indicated in the EVTYPEEVTYPE variable) are most harmful with respect to population health?
+The top 10 events with the greatest number fatalities were:  
+`r knitr::kable(d_fatal[1:10,])`  
+
+The top 10 events with the greatest number of injuries were:  
+`r knitr::kable(d_inj[1:10,])`  
+
+The harm to public heath can be considered measured by the sum of fatalities and injuries. The top 10 events with the greatest number of fatalities and injuries were:  
+`r knitr::kable(d_comb[1:10,])`  
+
+
+### Question 2. Across the United States, which types of events have the greatest economic consequences?
+
