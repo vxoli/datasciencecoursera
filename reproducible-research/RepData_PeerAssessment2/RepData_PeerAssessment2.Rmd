@@ -9,6 +9,13 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+## Synopsis
+In this analysis project I am using the data from the National Oceanic and Atmospheric Administration's Storm Database from 1950 to 2011.
+I will address two questions in particular:  
+1. What weather events have the greatest impact on public health
+2. What weather events have the greatest impact in economic indicators.  
+The analysis will be presented as tables and figures.
+
 ## Read data from .bz2 file
 Data read from the provided .bz2 file. read.csv supports directly reading from compressed .bz2 files.  
 data is read into the variable "data".  
