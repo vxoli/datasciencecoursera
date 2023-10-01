@@ -43,24 +43,26 @@ data$CROPDMG <- as.numeric(data$CROPDMG)
 # do computations for results in this block
 
 # measures of harm to health are columns FATALITIES & INJUTRIES.
-topFatalities <- as.data.frame(sort(tapply(data$FATALITIES, data$EVTYPE, FUN=sum), decreasing = TRUE))
-topInjuries <- as.data.frame(sort(tapply(data$INJURIES, data$EVTYPE, FUN=sum), decreasing = TRUE))
-topCombined <- as.data.frame(sort(tapply((data$FATALITIES+data$INJURIES), data$EVTYPE, FUN=sum), decreasing = TRUE))
-d_comb <- data.frame(x = topCombined, group=names(topCombined))
+topFatalities <- sort(tapply(data$FATALITIES, data$EVTYPE, FUN=sum), decreasing = TRUE)
+topInjuries <- sort(tapply(data$INJURIES, data$EVTYPE, FUN=sum), decreasing = TRUE)
+topCombined <- sort(tapply((data$FATALITIES+data$INJURIES), list(data$EVTYPE), FUN=sum), decreasing = TRUE)
+d_comb <- data.frame(x = topCombined[1:10], group=names(topCombined[1:10]))
 
 # measures of economic impact
-topEconomic <- sort(tapply(data$PROPDMG+data$CROPDMG, data$EVTYPE, FUN=sum), decreasing = TRUE)
+topEconomic <- sort(tapply((data$PROPDMG+data$CROPDMG), list(data$EVTYPE), FUN=sum), decreasing = TRUE)
 
-d_econ <- as.data.frame(x = topEconomic, group=names(topEconomic))
+d_econ <- data.frame(x = topEconomic[1:10], group=names(topEconomic[1:10]))
 ```
 
 ## results
 ### Questions 1. Across the United States, which types of events (as indicated in the EVTYPE variable) are most harmful with respect to population health?
 The events are captured in the variable called EVTYPE. There are two variables for health impacts: FATALITIES and INJURIES. The harm to public heath can be considered measured by the sum of fatalities and injuries.  
 The top 10 events with the greatest number of fatalities and injuries were:  
-`r knitr::kable(d_comb[1:10,])`  
+`r knitr::kable(d_comb, col.names=c("Number",""), caption = "Table of number of Fatalities and Injuries by Severe Weather Event type.")`  
 
 ### Question 2. Across the United States, which types of events have the greatest economic consequences?
 The economic consequences are captured as dollar amounts in variables PROPDMG for cost of property damage and CROPDMG for cost of copr damage.  
 The events with the top 10 greatest economic impacts were:
-`r `knrtr::kable(d_econ[1:10,])`
+`r knitr::kable(d_econ, col.names=c("$",""), caption = "Table of economic cost of Severe Weather Events by Types.")`
+
+
